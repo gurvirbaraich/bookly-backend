@@ -1,3 +1,4 @@
+const { uploader } = require("../../configurations/cloudinary");
 const Hotel = require("../../models/hotel.model");
 const isDeepFalse = require("../../utils/isDeepFalse");
 
@@ -16,7 +17,7 @@ class HotelsController {
   /**
    * Create a new hotel and adds it to the database.
    */
-  createHotel(req, res, next) {
+  async createHotel(req, res, next) {
     try {
       const {
         name,
@@ -26,17 +27,32 @@ class HotelsController {
         image,
         currentPrice,
         coords,
+        city,
+        country,
+        place_id,
         address,
       } = req.body;
 
       if (
         isDeepFalse(coords?.lat, coords?.lng) ||
-        isDeepFalse(name, description, rating, price, address, image)
+        isDeepFalse(
+          name,
+          city,
+          country,
+          place_id,
+          description,
+          rating,
+          price,
+          address,
+          image
+        )
       ) {
         throw new Error(
-          "'name', 'description', 'image', 'rating', 'price', 'coords.lat', 'coords.lng' and 'address' fields are required."
+          "'name', 'description', 'image', 'city', 'country', 'place_id', 'rating', 'price', 'coords.lat', 'coords.lng' and 'address' fields are required."
         );
       }
+
+      const { secure_url } = await uploader.upload(image);
 
       Hotel.create({
         name,
@@ -44,7 +60,10 @@ class HotelsController {
         rating,
         price,
         currentPrice,
-        image,
+        image: secure_url,
+        city,
+        country,
+        place_id,
         coords,
         address,
       }).then((hotel) => res.json(hotel));

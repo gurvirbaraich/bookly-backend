@@ -8,6 +8,10 @@ const hotelSchema = new mongoose.Schema({
     type: String,
     required: [true, "A hotel must have a name!"],
   },
+  place_id: {
+    type: String,
+    required: [true, "A hotel must have a place id!"],
+  },
   description: {
     type: String,
     required: [true, "A hotel must have a description!"],
@@ -32,6 +36,14 @@ const hotelSchema = new mongoose.Schema({
   image: {
     type: String,
     required: [true, "A hotel must have an image!"],
+  },
+  city: {
+    type: String,
+    required: [true, "A hotel must have a city!"],
+  },
+  country: {
+    type: String,
+    required: [true, "A hotel must have a country!"],
   },
   coords: {
     lat: {
