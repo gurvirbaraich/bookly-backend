@@ -8,7 +8,9 @@ class HotelsController {
    */
   async getHotels(req, res, next) {
     try {
-      res.json(await Hotel.find());
+      const { location } = req.params;
+
+      res.json(await Hotel.find({ city: location }));
     } catch (error) {
       next(error.message);
     }

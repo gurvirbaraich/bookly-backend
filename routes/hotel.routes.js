@@ -6,6 +6,7 @@ const apiController = require("../controllers/apiController");
 
 // GET
 hotelRouter.get("/", apiController.hotels.getHotels);
+hotelRouter.get("/:location", apiController.hotels.getHotels);
 
 // POST
 hotelRouter.post("/", apiController.hotels.createHotel);
